@@ -10,6 +10,13 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    InknutAntiquaBlack: require('../assets/fonts/InknutAntiqua-Black.ttf'),
+    InknutAntiquaBold: require('../assets/fonts/InknutAntiqua-Bold.ttf'),
+    InknutAntiquaExtraBold: require('../assets/fonts/InknutAntiqua-ExtraBold.ttf'),
+    InknutAntiquaLight: require('../assets/fonts/InknutAntiqua-Light.ttf'),
+    InknutAntiquaMedium: require('../assets/fonts/InknutAntiqua-Medium.ttf'),
+    InknutAntiquaRegular: require('../assets/fonts/InknutAntiqua-Regular.ttf'),
+    InknutAntiquaSemiBold: require('../assets/fonts/InknutAntiqua-SemiBold.ttf'),
   });
 
   if (!loaded) {

@@ -8,19 +8,44 @@ const tintColorDark = '#fff';
 
 export const Colors = {
   light: {
-    text: '#11181C',
-    background: '#fff',
+    // Your original colors
+    primary: '#000000',
+    secondary: '#575757',
+    white: '#FFFFFF',
+    background: '#FFFFFF',
+    homeIndicator: '#101010',
+    
+    // Theme colors (must exist in both light and dark)
     tint: tintColorLight,
-    icon: '#687076',
     tabIconDefault: '#687076',
     tabIconSelected: tintColorLight,
+    textPrimary: '#000000',
+    textSecondary: '#666666',
+    cardBackground: '#F5F5F5',
+    
+    // Food app accent colors
+    accent: '#F5D76E',
+    success: '#98FB98',
+    warning: '#FFB6C1',
   },
   dark: {
-    text: '#ECEDEE',
-    background: '#151718',
+    // Your original colors (adapted for dark mode)
+    primary: '#FFFFFF',
+    secondary: '#A8A8A8',
+    white: '#FFFFFF',
+    background: '#121212',
+    homeIndicator: '#FFFFFF',
+    
+    // Theme colors (must exist in both light and dark)
     tint: tintColorDark,
-    icon: '#9BA1A6',
     tabIconDefault: '#9BA1A6',
     tabIconSelected: tintColorDark,
+    textPrimary: '#FFFFFF',
+    textSecondary: '#A8A8A8',
+    cardBackground: '#1E1E1E',
+    
+    accent: '#FFE677',
+    success: '#FFE677',
+    warning: '#FFE677',
   },
 };
