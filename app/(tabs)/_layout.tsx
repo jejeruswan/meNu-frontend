@@ -50,6 +50,18 @@ export default function TabLayout() {
           },
         }}
       />
+      <Tabs.Screen
+        name="UserProfile"
+        options={{
+          title: 'Menu',
+          tabBarIcon: ({ color }) => (
+            <Icon name="restaurant" size={24} color={color} />
+          ),
+          tabBarLabelStyle: {
+            fontFamily: 'InknutAntiquaSemiBold',
+          },
+        }}
+      />
     </Tabs>
   );
 }
