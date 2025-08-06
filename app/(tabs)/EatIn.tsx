@@ -74,17 +74,24 @@ export default function RecipePage() {
 
     return (
     <ScrollView style={styles.container}>
+        {/* meNu Title */}
+        <View style={styles.header}>
+            <ThemedText style={[styles.headerTitle, { color: primaryTextColor, fontFamily: 'InknutAntiquaRegular' }]}>
+                meNu
+            </ThemedText>
+        </View>
 
       {/* Search Bar */}
       <View style={styles.searchContainer}>
-        <Ionicons name="search" size={20} color="#888" style={{ marginHorizontal: 8 }} />
-        <TextInput
-          style={styles.searchInput}
-          placeholder="What do you want to cook today?"
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-        />
-      </View>
+        <View style={styles.searchInner}>
+            <Ionicons name="search" size={20} color="#333" style={styles.searchIcon} />
+            <TextInput
+                style={styles.searchInput}
+                placeholder="what do you want to cook today?"
+                placeholderTextColor="#888"
+                />
+        </View>
+    </View>
 
       {/* Top Recipes */}
       <ThemedText style={styles.sectionTitle}>Your Top Recipes</ThemedText>
@@ -137,17 +144,46 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         paddingHorizontal: 16,
       },
-      searchContainer: {
+      header: 
+      {
+        paddingHorizontal: 20,
+        paddingTop: 20,
+        paddingBottom: 18, 
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    headerTitle: 
+    {
+        fontSize: 26,
+        fontWeight: 'normal',
+        lineHeight: 35,
+        paddingTop: 3, 
+    },
+    searchContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#f2f2f2',
-        borderRadius: 12,
-        paddingHorizontal: 8,
-        marginVertical: 12,
+        backgroundColor: '#FFE677',  
+        borderRadius: 20,
+        paddingHorizontal: 12,
+        paddingVertical: 8,
+        margin: 16,
+      },
+      searchInner: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#fff',   
+        borderRadius: 20,
+        paddingHorizontal: 25,
+        paddingVertical: 6,
+        width: '60%',
+      },
+      searchIcon: {
+        marginRight: 8,
       },
       searchInput: {
         flex: 1,
-        paddingVertical: 8,
+        fontSize: 14,
+        color: '#333',
       },
       sectionTitle: {
         fontFamily: 'InknutAntiquaBold',
