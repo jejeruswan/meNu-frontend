@@ -12,54 +12,49 @@ export default function TabLayout() {
   const tabBarInactiveTintColor = useThemeColor({}, 'tabIconDefault');
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: tabBarActiveTintColor,
-        tabBarInactiveTintColor: tabBarInactiveTintColor,
-        headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            position: 'absolute',
-          },
-          default: {},
-        }),
-      }}>
+      <Tabs
+        screenOptions={{
+          tabBarActiveTintColor: tabBarActiveTintColor,
+          tabBarInactiveTintColor: tabBarInactiveTintColor,
+          headerShown: false,
+          tabBarButton: HapticTab,
+          tabBarBackground: TabBarBackground,
+          tabBarStyle: Platform.select({
+            ios: { position: 'absolute' },
+            default: {},
+          }),
+        }}
+      >
       <Tabs.Screen
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => (
-            <Icon name="home" size={24} color={color} />
-          ),
-          tabBarLabelStyle: {
-            fontFamily: 'InknutAntiquaSemiBold',
-          },
+          tabBarIcon: ({ color }) => <Icon name="home" size={24} color={color} />,
+          tabBarLabelStyle: { fontFamily: 'InknutAntiquaSemiBold' },
         }}
       />
       <Tabs.Screen
         name="HomePage"
         options={{
           title: 'Menu',
-          tabBarIcon: ({ color }) => (
-            <Icon name="restaurant" size={24} color={color} />
-          ),
-          tabBarLabelStyle: {
-            fontFamily: 'InknutAntiquaSemiBold',
-          },
+          tabBarIcon: ({ color }) => <Icon name="restaurant" size={24} color={color} />,
+          tabBarLabelStyle: { fontFamily: 'InknutAntiquaSemiBold' },
         }}
       />
       <Tabs.Screen
         name="UserProfile"
         options={{
-          title: 'Menu',
-          tabBarIcon: ({ color }) => (
-            <Icon name="restaurant" size={24} color={color} />
-          ),
-          tabBarLabelStyle: {
-            fontFamily: 'InknutAntiquaSemiBold',
-          },
+          title: 'Profile',
+          tabBarIcon: ({ color }) => <Icon name="person" size={24} color={color} />,
+          tabBarLabelStyle: { fontFamily: 'InknutAntiquaSemiBold' },
+        }}
+      />
+      <Tabs.Screen
+        name="EatIn"
+        options={{
+          title: 'Eat In',
+          tabBarIcon: ({ color }) => <Icon name="fastfood" size={24} color={color} />,
+          tabBarLabelStyle: { fontFamily: 'InknutAntiquaSemiBold' },
         }}
       />
     </Tabs>

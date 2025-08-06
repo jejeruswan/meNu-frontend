@@ -20,6 +20,13 @@ export default function UserProfileScreen() {
 
     return (
     <ScrollView style={[styles.container, { backgroundColor }]}>
+        {/* meNu Title */}
+         <View style={styles.header}>
+                <ThemedText style={[styles.headerTitle, { color: primaryTextColor, fontFamily: 'InknutAntiquaRegular' }]}>
+                  meNu
+                </ThemedText>
+              </View>
+
         {/* Profile Header */}
         <View style={styles.sectionHeader}>
           <Image source={require('@/assets/images/stock-profile-photo.jpg')} style={styles.profileImage} />
@@ -104,6 +111,19 @@ export default function UserProfileScreen() {
 const styles = StyleSheet.create(
     {
         container: { flex: 1 },
+        header: {
+            paddingHorizontal: 20,
+            paddingTop: 20,
+            paddingBottom: 18, 
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        headerTitle: {
+            fontSize: 26,
+            fontWeight: 'normal',
+            lineHeight: 35,
+            paddingTop: 3, 
+        },
         profileImage: { 
             width: 150, 
             height: 150, 
