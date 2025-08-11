@@ -9,7 +9,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 export default function WriteReview() {
     return (
-        {/*testing first commit by vanessa hehe */}
+        {/*testing second commit by vanessa*/}
         <ScrollView>
 
         </ScrollView>
