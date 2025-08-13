@@ -3,6 +3,9 @@ import { ThemedText } from '@/components/ThemedText';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { Ionicons } from '@expo/vector-icons';
+import { Modal } from 'react-native';
+import { BlurView } from 'expo-blur';
+import WriteReview from '../../screens/EatOut/WriteReview';
 import {
     Image,
     ScrollView,
@@ -59,6 +62,8 @@ export default function ReviewPage() {
     const primaryTextColor = useThemeColor({}, 'textPrimary');
 
     const [selectedTab, setSelectedTab] = useState('Friends');
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
 
     const renderReviewCard = ({ item }) => (
         <View style={styles.reviewCard}>
@@ -93,7 +98,10 @@ export default function ReviewPage() {
                 <ThemedText style={styles.sectionTitle}>
                     Let's Taco 'Bout It
                 </ThemedText>
-                <TouchableOpacity style={styles.reviewButton}>
+                <TouchableOpacity 
+                    style={styles.reviewButton}
+                    onPress={() => setIsModalVisible(true)}
+                >
                     <ThemedText style={styles.reviewButtonText}>+ Write a Review</ThemedText>
                 </TouchableOpacity>
             </View>
@@ -130,6 +138,17 @@ export default function ReviewPage() {
 
             {/* Food Stories */}
 
+            {/* Writing Review Modal */}
+            <Modal
+                transparent
+                animationType="fade"
+                visible={isModalVisible}
+                onRequestClose={() => setIsModalVisible(false)}
+            >
+                <BlurView intensity={50} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <WriteReview onClose={() => setIsModalVisible(false)} />
+                </BlurView>
+            </Modal>
         </ScrollView>
     );
 }
