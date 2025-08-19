@@ -9,13 +9,13 @@ import {
     TouchableOpacity,
     View
 } from 'react-native';
-
+import { useRouter } from 'expo-router';
 
 export default function UserProfileScreen() {
     const colorScheme = useColorScheme();
     const backgroundColor = useThemeColor({}, 'background');
     const primaryTextColor = useThemeColor({}, 'textPrimary');
-
+    const router = useRouter();
     const userName = 'Jessica'; // replace with real data later
 
     return (
@@ -60,9 +60,11 @@ export default function UserProfileScreen() {
             </View>
           </View>
           <View style={styles.dashboardRow}>
-            <View style={styles.dashboardCard}>
+            <TouchableOpacity
+              style={styles.dashboardCard}
+              onPress={() => router.push('/FlavorProfile')}>
               <ThemedText style={styles.dashboardText}>Flavor Profile</ThemedText>
-            </View>
+            </TouchableOpacity>
             <View style={styles.dashboardCard}>
               <ThemedText style={styles.dashboardText}>meNu History</ThemedText>
             </View>
@@ -114,7 +116,7 @@ const styles = StyleSheet.create(
         header: {
             paddingHorizontal: 20,
             paddingTop: 20,
-            paddingBottom: 18, 
+            paddingBottom: 5, 
             alignItems: 'center',
             justifyContent: 'center',
         },
@@ -198,7 +200,7 @@ const styles = StyleSheet.create(
           flexDirection: 'row',
           justifyContent: 'space-between',
           marginHorizontal: 16,
-          marginTop: 20,
+          marginTop: 10,
         },
         sectionTitle: { fontWeight: 'bold', fontSize: 18 },     
     }
