@@ -58,104 +58,172 @@ export default function FlavorProfile() {
     };
 
     return (
-        <ScrollView style={[styles.container, { backgroundColor }]} contentContainerStyle={{ paddingBottom: 20 }}>
-            {/* Menu and Profile Picture Container */}
-            <View style={{ alignItems: 'center', position: 'relative', marginTop: 20 }}>
-                {/* meNu Title */}
-                <View style={[styles.header, { paddingBottom: 5, paddingTop: 10 }]}>
-                    <ThemedText style={[styles.headerTitle, { color: primaryTextColor, fontFamily: 'InknutAntiquaRegular', lineHeight: 30 }]}>
-                        meNu
+        <View style={{ flex: 1 }}>
+            <View style={[{ flex: 1 }, isEditing && styles.blurredBackground]}>
+                {/* Menu and Profile Picture Container */}
+                <View style={{ alignItems: 'center', position: 'relative', marginTop: 20 }}>
+                    {/* meNu Title */}
+                    <View style={[styles.header, { paddingBottom: 5, paddingTop: 10 }]}>
+                        <ThemedText style={[styles.headerTitle, { color: primaryTextColor, fontFamily: 'InknutAntiquaRegular', lineHeight: 30 }]}>
+                            meNu
+                        </ThemedText>
+                    </View>
+
+                    {/* Profile Picture positioned close to menu */}
+                    <Image
+                        source={require('@/assets/images/stock-profile-photo.jpg')}
+                        style={{
+                            width: 150,
+                            height: 150,
+                            borderRadius: 100,
+                            borderWidth: 3,
+                            borderColor: 'black',
+                            position: 'absolute',
+                            top: 60, // adjust this to bring picture closer/further
+                            left: '50%',
+                            marginLeft: -75, // half the width to center
+                        }}
+                    />
+
+                    {/* Spacer to keep ScrollView layout intact */}
+                    <View style={{ height: 160 }} /> 
+                    {/* 150 for image + small buffer so content below scrolls normally */}
+
+                    {/* My Flavor Profile Title */}
+                    <ThemedText
+                        style={{
+                            color: primaryTextColor,
+                            fontFamily: 'InknutAntiquaRegular',
+                            fontSize: 20,
+                            textAlign: 'center',
+                            marginTop: 10,
+                        }}
+                    >
+                        My Flavor Profile
                     </ThemedText>
+
+
                 </View>
+                <TouchableOpacity onPress={() => setIsEditing(true)} style={styles.editBtn}>
+                <Text style={styles.editBtnText}>Edit</Text>
+                </TouchableOpacity>
+                
+                <ScrollView style={[styles.container, { backgroundColor }]} contentContainerStyle={{ paddingBottom: 20 }}>
 
-                {/* Profile Picture positioned close to menu */}
-                <Image
-                    source={require('@/assets/images/stock-profile-photo.jpg')}
-                    style={{
-                        width: 150,
-                        height: 150,
-                        borderRadius: 100,
-                        borderWidth: 3,
-                        borderColor: 'black',
-                        position: 'absolute',
-                        top: 60, // adjust this to bring picture closer/further
-                        left: '50%',
-                        marginLeft: -75, // half the width to center
-                    }}
-                />
+                    <View style={styles.yellowcontainer}>
+                        {/* erm hard part */}
 
-                {/* Spacer to keep ScrollView layout intact */}
-                <View style={{ height: 160 }} /> 
-                {/* 150 for image + small buffer so content below scrolls normally */}
+                        {/* Taste Palette */}
+                        <Text style={styles.heading}>Taste Palette</Text>
+                        {Object.keys(sliders).map((key) => (
+                            <View key={key} style={styles.blackBox}>
+                            <Text style={styles.label}>{key}</Text>
+                            <Slider
+                                style={{ width: "100%" }}
+                                value={isEditing ? tempSliders[key] : sliders[key]}
+                                onValueChange={(val) =>
+                                setTempSliders({ ...tempSliders, [key]: val })
+                                }
+                                minimumValue={0}
+                                maximumValue={1}
+                                minimumTrackTintColor="green"
+                                maximumTrackTintColor="red"
+                                disabled={!isEditing}
+                            />
+                            </View>
+                        ))}
 
-                {/* My Flavor Profile Title */}
-                <ThemedText
-                    style={{
-                        color: primaryTextColor,
-                        fontFamily: 'InknutAntiquaRegular',
-                        fontSize: 20,
-                        textAlign: 'center',
-                        marginTop: 10,
-                    }}
-                >
-                    My Flavor Profile
-                </ThemedText>
+                        {/* Mood Cravings */}
+                        <Text style={styles.heading}>Mood Cravings</Text>
+                        {Object.keys(mood).map((key) => (
+                            <View key={key} style={styles.blackBox}>
+                            <Text style={styles.label}>When I'm {key}...</Text>
+                            <TextInput
+                                style={styles.input}
+                                value={isEditing ? tempMood[key] : mood[key]}
+                                onChangeText={(text) =>
+                                setTempMood({ ...tempMood, [key]: text })
+                                }
+                                editable={isEditing}
+                                multiline
+                            />
+                            </View>
+                        ))}
 
+                        {/* Show confirm modal only when editing */}
+                        {isEditing && (
+                            <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.saveBtn}>
+                            <Text style={{ color: "white" }}>Save Changes</Text>
+                            </TouchableOpacity>
+                        )}
+                    </View>
 
+                </ScrollView>
             </View>
-            <TouchableOpacity onPress={() => setIsEditing(true)} style={styles.editBtn}>
-            <Text style={styles.editBtnText}>Edit</Text>
-            </TouchableOpacity>
-            <View style={styles.yellowcontainer}>
-                {/* Edit button */}
+            
+            {/* Full-Screen Edit Overlay */}
+            {isEditing && (
+                <View style={styles.fullScreenEditOverlay}>
+                    <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
+                        {/* Close button */}
+                        <TouchableOpacity 
+                            onPress={handleCancel} 
+                            style={styles.closeBtn}
+                        >
+                            <Text style={styles.closeBtnText}>✕</Text>
+                        </TouchableOpacity>
 
-                {/* Taste Palette */}
-                <Text style={styles.heading}>Taste Palette</Text>
-                {Object.keys(sliders).map((key) => (
-                    <View key={key} style={styles.blackBox}>
-                    <Text style={styles.label}>{key}</Text>
-                    <Slider
-                        style={{ width: "100%" }}
-                        value={isEditing ? tempSliders[key] : sliders[key]}
-                        onValueChange={(val) =>
-                        setTempSliders({ ...tempSliders, [key]: val })
-                        }
-                        minimumValue={0}
-                        maximumValue={1}
-                        minimumTrackTintColor="green"
-                        maximumTrackTintColor="red"
-                        disabled={!isEditing}
-                    />
-                    </View>
-                ))}
+                        {/* Full-screen yellow container */}
+                        <View style={styles.fullScreenYellowContainer}>
+                            {/* Your editing content here - copy from your existing yellowcontainer */}
+                            {/* Taste Palette */}
+                            <Text style={styles.heading}>Taste Palette</Text>
+                                    {Object.keys(sliders).map((key) => (
+                                        <View key={key} style={styles.blackBox}>
+                                        <Text style={styles.label}>{key}</Text>
+                                        <Slider
+                                            style={{ width: "100%" }}
+                                            value={tempSliders[key]}
+                                            onValueChange={(val) =>
+                                            setTempSliders({ ...tempSliders, [key]: val })
+                                            }
+                                            minimumValue={0}
+                                            maximumValue={1}
+                                            minimumTrackTintColor="green"
+                                            maximumTrackTintColor="red"
+                                        />
+                                        </View>
+                                    ))}
 
-                {/* Mood Cravings */}
-                <Text style={styles.heading}>Mood Cravings</Text>
-                {Object.keys(mood).map((key) => (
-                    <View key={key} style={styles.blackBox}>
-                    <Text style={styles.label}>When I’m {key}...</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={isEditing ? tempMood[key] : mood[key]}
-                        onChangeText={(text) =>
-                        setTempMood({ ...tempMood, [key]: text })
-                        }
-                        editable={isEditing}
-                        multiline
-                    />
-                    </View>
-                ))}
+                                    {/* Mood Cravings */}
+                                    <Text style={styles.heading}>Mood Cravings</Text>
+                                    {Object.keys(mood).map((key) => (
+                                        <View key={key} style={styles.blackBox}>
+                                        <Text style={styles.label}>When I'm {key}...</Text>
+                                        <TextInput
+                                            style={styles.input}
+                                            value={tempMood[key]}
+                                            onChangeText={(text) =>
+                                            setTempMood({ ...tempMood, [key]: text })
+                                            }
+                                            editable={true}
+                                            multiline
+                                        />
+                                        </View>
+                                    ))}
 
-                {/* Show confirm modal only when editing */}
-                {isEditing && (
-                    <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.saveBtn}>
-                    <Text style={{ color: "white" }}>Save Changes</Text>
-                    </TouchableOpacity>
-                )}
+                                    {/* Show confirm modal only when editing */}
+                                    <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.saveBtn}>
+                                    <Text style={{ color: "white" }}>Save Changes</Text>
+                                    </TouchableOpacity>
+                        </View>
+                    </ScrollView>
+                </View>
+            )}
 
-                {/* Confirmation Modal */}
-                <Modal transparent={true} visible={modalVisible} animationType="slide">
-                    <View style={styles.modalBg}>
+            {/* Confirmation Modal */}
+            <Modal transparent={true} visible={modalVisible} animationType="slide">
+                <View style={styles.modalBg}>
                     <View style={styles.modalBox}>
                         <Text>Confirm changes?</Text>
                         <View style={{ flexDirection: "row", marginTop: 10, justifyContent: "space-between", width: "100%" }}>
@@ -167,12 +235,9 @@ export default function FlavorProfile() {
                             </View>
                         </View>
                     </View>
-                    </View>
-                </Modal>
-
-            </View>
-
-        </ScrollView>
+                </View>
+            </Modal>
+        </View>        
     );
 }
 
@@ -263,5 +328,41 @@ const styles = StyleSheet.create({
         borderWidth: 3,
         borderColor: 'black',
         alignSelf: 'center',
+    },
+    blurredBackground: {
+        opacity: 0.3,
+    },
+    fullScreenEditOverlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        zIndex: 1000,
+    },
+    fullScreenYellowContainer: {
+        margin: 20,
+        marginTop: 80, // space for close button
+        backgroundColor: "#fcd34d", 
+        padding: 25,
+        borderRadius: 20,
+        minHeight: '80%',
+    },
+    closeBtn: {
+        position: 'absolute',
+        top: 50,
+        right: 30,
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 1001,
+    },
+    closeBtnText: {
+        fontSize: 18,
+        fontWeight: 'bold',
     },
 });
