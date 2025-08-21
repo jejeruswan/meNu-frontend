@@ -12,7 +12,7 @@ import { View, Text, TouchableOpacity, TextInput, Modal, Button } from 'react-na
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { useRouter } from 'expo-router';
-import Slider from '@react-native-community/slider';
+import GradientSlider from './GradientSlider'; // Adjust path as needed
 
 export default function FlavorProfile() {
     const colorScheme = useColorScheme();
@@ -51,10 +51,14 @@ export default function FlavorProfile() {
     };
   
     const handleCancel = () => {
-      setTempSliders(sliders);
-      setTempMood(mood);
-      setIsEditing(false);
       setModalVisible(false);
+    };
+
+    const handleClose = () => {
+        setTempSliders(sliders);
+        setTempMood(mood);
+        setIsEditing(false);
+        setModalVisible(false);
     };
 
     return (
@@ -118,16 +122,12 @@ export default function FlavorProfile() {
                         {Object.keys(sliders).map((key) => (
                             <View key={key} style={styles.blackBox}>
                             <Text style={styles.label}>{key}</Text>
-                            <Slider
+                            <GradientSlider
                                 style={{ width: "100%" }}
                                 value={isEditing ? tempSliders[key] : sliders[key]}
                                 onValueChange={(val) =>
-                                setTempSliders({ ...tempSliders, [key]: val })
+                                    setTempSliders({ ...tempSliders, [key]: val })
                                 }
-                                minimumValue={0}
-                                maximumValue={1}
-                                minimumTrackTintColor="green"
-                                maximumTrackTintColor="red"
                                 disabled={!isEditing}
                             />
                             </View>
@@ -150,12 +150,6 @@ export default function FlavorProfile() {
                             </View>
                         ))}
 
-                        {/* Show confirm modal only when editing */}
-                        {isEditing && (
-                            <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.saveBtn}>
-                            <Text style={{ color: "white" }}>Save Changes</Text>
-                            </TouchableOpacity>
-                        )}
                     </View>
 
                 </ScrollView>
@@ -165,57 +159,55 @@ export default function FlavorProfile() {
             {isEditing && (
                 <View style={styles.fullScreenEditOverlay}>
                     <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
-                        {/* Close button */}
-                        <TouchableOpacity 
-                            onPress={handleCancel} 
-                            style={styles.closeBtn}
-                        >
-                            <Text style={styles.closeBtnText}>✕</Text>
-                        </TouchableOpacity>
-
                         {/* Full-screen yellow container */}
                         <View style={styles.fullScreenYellowContainer}>
                             {/* Your editing content here - copy from your existing yellowcontainer */}
+                            {/* Close button */}
+                            <TouchableOpacity onPress={handleClose} style={styles.crossButton}>
+                                <Image 
+                                    source={require('../assets/images/cross-button.png')}
+                                    style={{ width: 33, height: 33 }}
+                                    resizeMode="contain"
+                                />
+                            </TouchableOpacity>
+
                             {/* Taste Palette */}
                             <Text style={styles.heading}>Taste Palette</Text>
-                                    {Object.keys(sliders).map((key) => (
-                                        <View key={key} style={styles.blackBox}>
-                                        <Text style={styles.label}>{key}</Text>
-                                        <Slider
-                                            style={{ width: "100%" }}
-                                            value={tempSliders[key]}
-                                            onValueChange={(val) =>
+                                {Object.keys(sliders).map((key) => (
+                                    <View key={key} style={styles.blackBox}>
+                                    <Text style={styles.label}>{key}</Text>
+                                    <GradientSlider
+                                        style={{ width: "100%" }}
+                                        value={isEditing ? tempSliders[key] : sliders[key]}
+                                        onValueChange={(val) =>
                                             setTempSliders({ ...tempSliders, [key]: val })
-                                            }
-                                            minimumValue={0}
-                                            maximumValue={1}
-                                            minimumTrackTintColor="green"
-                                            maximumTrackTintColor="red"
-                                        />
-                                        </View>
-                                    ))}
+                                        }
+                                        disabled={!isEditing}
+                                    />
+                                    </View>
+                                ))}
 
-                                    {/* Mood Cravings */}
-                                    <Text style={styles.heading}>Mood Cravings</Text>
-                                    {Object.keys(mood).map((key) => (
-                                        <View key={key} style={styles.blackBox}>
-                                        <Text style={styles.label}>When I'm {key}...</Text>
-                                        <TextInput
-                                            style={styles.input}
-                                            value={tempMood[key]}
-                                            onChangeText={(text) =>
-                                            setTempMood({ ...tempMood, [key]: text })
-                                            }
-                                            editable={true}
-                                            multiline
-                                        />
-                                        </View>
-                                    ))}
+                                {/* Mood Cravings */}
+                                <Text style={styles.heading}>Mood Cravings</Text>
+                                {Object.keys(mood).map((key) => (
+                                    <View key={key} style={styles.blackBox}>
+                                    <Text style={styles.label}>When I'm {key}...</Text>
+                                    <TextInput
+                                        style={styles.input}
+                                        value={tempMood[key]}
+                                        onChangeText={(text) =>
+                                        setTempMood({ ...tempMood, [key]: text })
+                                        }
+                                        editable={true}
+                                        multiline
+                                    />
+                                    </View>
+                                ))}
 
-                                    {/* Show confirm modal only when editing */}
-                                    <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.saveBtn}>
-                                    <Text style={{ color: "white" }}>Save Changes</Text>
-                                    </TouchableOpacity>
+                                {/* Show confirm modal only when editing */}
+                                <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.saveBtn}>
+                                <Text style={styles.submittext}>Save Changes</Text>
+                                </TouchableOpacity>
                         </View>
                     </ScrollView>
                 </View>
@@ -277,6 +269,7 @@ const styles = StyleSheet.create({
     label: { 
         color: "white", 
         marginBottom: 5,
+        fontSize: 15,
         fontFamily: 'InknutAntiquaRegular',
         fontWeight: "semibold",
     },
@@ -285,7 +278,7 @@ const styles = StyleSheet.create({
         fontSize: 14
     },
     saveBtn: {
-        backgroundColor: "black",
+        backgroundColor: "white",
         padding: 12,
         borderRadius: 8,
         alignItems: "center",
@@ -349,20 +342,17 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         minHeight: '80%',
     },
-    closeBtn: {
+    crossButton: {
         position: 'absolute',
-        top: 50,
-        right: 30,
-        width: 40,
-        height: 40,
-        borderRadius: 20,
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 1001,
+        top: 15,
+        right: 15,
+        width: 33,
+        height: 33,
     },
-    closeBtnText: {
-        fontSize: 18,
-        fontWeight: 'bold',
+    submittext: {
+        color: 'black',
+        fontFamily: 'System', 
+        fontSize: 16,
+        fontWeight: '550',
     },
 });
