@@ -65,7 +65,7 @@ export default function WriteRecipe() {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     return (
-        <ScrollView style={styles.container}>
+        <View style={styles.container}>
             {/* Header */}
             <View style={styles.header}>
                 <ThemedText style={[styles.headerTitle, { fontFamily: 'InknutAntiquaRegular' }]}>
@@ -220,7 +220,7 @@ export default function WriteRecipe() {
                     </BlurView>
                 </Modal>
             </ScrollView>
-        </ScrollView>      
+        </View>      
     );
 }
 
@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 20,
         marginBottom: 30,
-        maxHeight: 600, // Add max height for scrolling
+        flex: 1, // Add max height for scrolling
     },
     fieldContainer: {
         marginBottom: 20,
