@@ -63,7 +63,7 @@ export default function FlavorProfile() {
 
     return (
         <View style={{ flex: 1 }}>
-            <View style={[{ flex: 1 }, isEditing && styles.blurredBackground]}>
+            <ScrollView style={[{ flex: 1 }, isEditing && styles.blurredBackground]}>
                 {/* Menu and Profile Picture Container */}
                 <View style={{ alignItems: 'center', position: 'relative', marginTop: 20 }}>
                     {/* meNu Title */}
@@ -153,7 +153,7 @@ export default function FlavorProfile() {
                     </View>
 
                 </ScrollView>
-            </View>
+            </ScrollView>
             
             {/* Full-Screen Edit Overlay */}
             {isEditing && (

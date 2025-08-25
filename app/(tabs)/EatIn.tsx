@@ -3,6 +3,8 @@ import { ThemedText } from '@/components/ThemedText';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import { SafeAreaView } from 'react-native';
 import {
     Image,
     ScrollView,
@@ -16,7 +18,7 @@ import {
 
 
 const { width } = Dimensions.get('window');
-
+const router = useRouter();
 
 // Mock Data
 const topRecipes = [
@@ -76,22 +78,31 @@ export default function RecipePage() {
     <ScrollView style={styles.container}>
         {/* meNu Title */}
         <View style={styles.header}>
-            <ThemedText style={[styles.headerTitle, { color: primaryTextColor, fontFamily: 'InknutAntiquaRegular' }]}>
+            <ThemedText style={[styles.headerTitle, { fontFamily: 'InknutAntiquaRegular' }]}>
                 meNu
             </ThemedText>
         </View>
 
       {/* Search Bar */}
-      <View style={styles.searchContainer}>
-        <View style={styles.searchInner}>
-            <Ionicons name="search" size={20} color="#333" style={styles.searchIcon} />
-            <TextInput
-                style={styles.searchInput}
-                placeholder="what do you want to cook today?"
-                placeholderTextColor="#888"
-                />
+      <View style={styles.searchBarContainer}>
+        <View style={styles.searchInputContainer}>
+          <Ionicons name="search" size={20} color="#333" style={styles.searchIcon} />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="any cravings?"
+            placeholderTextColor="#888"
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+          />
         </View>
-    </View>
+  
+        <TouchableOpacity
+          style={styles.addRecipeButton}
+          onPress={() => router.push('/WriteRecipe')}
+        >
+          <ThemedText style={styles.addRecipeText}>+ Add Recipe</ThemedText>
+        </TouchableOpacity>
+      </View>
 
       {/* Top Recipes */}
       <ThemedText style={styles.sectionTitle}>Your Top Recipes</ThemedText>
@@ -151,45 +162,72 @@ const styles = StyleSheet.create({
         paddingBottom: 18, 
         alignItems: 'center',
         justifyContent: 'center',
-    },
+      },
     headerTitle: 
-    {
+      {
         fontSize: 26,
         fontWeight: 'normal',
         lineHeight: 35,
         paddingTop: 3, 
-    },
-    searchContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: '#FFE677',  
-        borderRadius: 20,
-        paddingHorizontal: 12,
-        paddingVertical: 8,
-        margin: 16,
+        color: 'black',
       },
-      searchInner: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: '#fff',   
-        borderRadius: 20,
-        paddingHorizontal: 25,
-        paddingVertical: 6,
-        width: '60%',
-      },
+    
       searchIcon: {
         marginRight: 8,
       },
       searchInput: {
         flex: 1,
-        fontSize: 14,
+        fontSize: 13, // Reduced from 14 for mobile
         color: '#333',
+        minWidth: 0, // Prevent overflow
       },
       sectionTitle: {
         fontFamily: 'InknutAntiquaBold',
         fontSize: 18,
         fontWeight: 'bold',
         marginVertical: 8,
+      },
+      searchBarContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#FFE677',  
+        borderRadius: 25,
+        paddingHorizontal: 8,
+        paddingVertical: 8,
+        marginHorizontal: 0, // Changed from 16 to align with margins
+        marginBottom: 16,
+        gap: 8,
+      },
+      searchInputContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#fff',   
+        borderRadius: 25,
+        paddingHorizontal: 12, // Reduced from 16 for mobile
+        paddingVertical: 12,
+        flex: 1, // This will expand to fill available space
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.1,
+        shadowRadius: 2,
+        elevation: 2,
+        minWidth: 0, // Allow shrinking on mobile
+      },
+      addRecipeButton: { // RENAMED from addrecipe
+        backgroundColor: 'black',   
+        borderRadius: 25, // Changed from 20
+        paddingHorizontal: 20, // Changed from 25
+        paddingVertical: 12, // Changed from 6
+        justifyContent: 'center', // ADDED
+        alignItems: 'center', // ADDED
+        minWidth: 120, // ADDED - prevents squishing!
+      },
+      addRecipeText: { // RENAMED from dashboardText
+        fontSize: 14, // Changed from 13
+        fontFamily: 'InknutAntiquaSemiBold',
+        color: 'white',
+        textAlign: 'center', // ADDED
+        // REMOVED flex: 1 - this was causing the weird spacing!
       },
       topRecipeImage: {
         width: 120,
